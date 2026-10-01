@@ -6,6 +6,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app import db
+from app.routes import generate_interview
 
 load_dotenv()
 
@@ -32,6 +33,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Vapi tool routes
+app.include_router(generate_interview.router)
 
 
 @app.get("/health")
