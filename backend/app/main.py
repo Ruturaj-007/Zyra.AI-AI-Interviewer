@@ -11,6 +11,13 @@ from app.routes import generate_interview, resume_interview, submit_answer, trac
 load_dotenv()
 
 
+def _allowed_origins() -> list[str]:
+    """FRONTEND_ORIGIN can hold several origins separated by commas."""
+    raw = os.getenv("FRONTEND_ORIGIN", "http://localhost:3000")
+    # Trim spaces and any trailing slash, because browsers send origins without one
+    return [o.strip().rstrip("/") for o in raw.split(",") if o.strip()]
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     db.open_pool()
@@ -26,10 +33,10 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# Let the Next.js frontend call this API from the browser
+# Let the Next.js frontend call this API from the browser (local and deployed)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[os.getenv("FRONTEND_ORIGIN", "http://localhost:3000")],
+    allow_origins=_allowed_origins(),
     allow_methods=["*"],
     allow_headers=["*"],
 )
