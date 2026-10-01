@@ -6,7 +6,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app import db
-from app.routes import generate_interview
+from app.routes import generate_interview, resume_interview, submit_answer
 
 load_dotenv()
 
@@ -36,6 +36,8 @@ app.add_middleware(
 
 # Vapi tool routes
 app.include_router(generate_interview.router)
+app.include_router(submit_answer.router)
+app.include_router(resume_interview.router)
 
 
 @app.get("/health")
