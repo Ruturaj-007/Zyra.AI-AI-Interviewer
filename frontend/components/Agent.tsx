@@ -62,7 +62,8 @@ const Agent = ({ candidate, setup }: AgentProps) => {
 
     const onSpeechStart = () => setIsSpeaking(true);
     const onSpeechEnd = () => setIsSpeaking(false);
-    const onError = (err: unknown) => console.error("Vapi error:", err);
+    // const onError = (err: unknown) => console.error("Vapi error:", err);
+        const onError = (err: unknown) => console.error("Vapi error:", JSON.stringify(err ?? {}, Object.getOwnPropertyNames(err ?? {}), 2));
 
     vapi.on("call-start", onCallStart);
     vapi.on("call-end", onCallEnd);
