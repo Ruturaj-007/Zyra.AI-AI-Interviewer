@@ -6,7 +6,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app import db
-from app.routes import generate_interview, resume_interview, submit_answer
+from app.routes import generate_interview, resume_interview, submit_answer, trace
 
 load_dotenv()
 
@@ -38,6 +38,9 @@ app.add_middleware(
 app.include_router(generate_interview.router)
 app.include_router(submit_answer.router)
 app.include_router(resume_interview.router)
+
+# Trace routes for the timeline UI
+app.include_router(trace.router)
 
 
 @app.get("/health")
